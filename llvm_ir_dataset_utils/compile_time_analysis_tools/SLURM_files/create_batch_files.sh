@@ -1,7 +1,17 @@
 #!/bin/bash
+#USAGE
+#./create_batch_files.sh <STORAGE_PATH> <MAKEFILE_PATH>
 
-STORAGE="/lustre/schandra_crpl/users/3302/ir_bc_files/"
-BATCH_PATH="/home/3302/hf_py_code/compile/codes/batch_jobs/makefile_dir/"
+if [ -z "$1" ]; then
+  STORAGE="/lustre/schandra_crpl/users/3302/ir_bc_files/"
+else
+  STORAGE="$1"
+fi
+if [ -z "$2" ]; then
+  MAKE_PATH="/home/3302/hf_py_code/compile/codes/batch_jobs/makefile_dir/"
+else
+  MAKE_PATH="$2"
+fi
 
 lang=("c" "cpp" "julia" "rust" "swift")
 array1=(0 31653 87225 144641 353700)
@@ -21,7 +31,7 @@ do
   echo "TYPE=${lang[$i]}" >> $js
   echo "SIZE=${sizes[$i]}" >> $js
   echo "STORAGE=${STORAGE}" >> $js
-  echo "BATCH_PATH=${BATCH_PATH}" >> $js
+  echo "MAKE_PATH=${MAKE_PATH}" >> $js
   cat batch_main_body.sh >> $js
   chmod 744 $js
 done
