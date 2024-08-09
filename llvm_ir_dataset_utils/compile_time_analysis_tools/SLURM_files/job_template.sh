@@ -5,5 +5,6 @@
 #SBATCH --partition=standard
 #SBATCH --time=0-00:10:00
 #SBATCH --export=NONE
+# NUMBER OF JOBS: 400
 #SBATCH --array=0-399
 
