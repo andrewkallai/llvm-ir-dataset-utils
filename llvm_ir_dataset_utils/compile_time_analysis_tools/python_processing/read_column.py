@@ -1,16 +1,21 @@
-# -*- coding: ascii -*-
-import csv
+"""Utilities for reading and processing csv data with features for outlier analysis.
+
+pandas_df_with_outlier_scores
+  Returns: pandas.core.frame.DataFrame
+  Example usage: pandas_df_with_outlier_scores('c', '/tmp', file_name='_other_suffix.csv', write_to_csv=True)
+"""
 
 
-def open_and_load(lang: str, STORAGE: str = '/tmp') -> [int]:
-    '''
-    Function to read csv files containing text segment size and instruction counts data.
-    '''
-    textseg_data: [int] = []
-    inst_data: [int] = []
-    with open(STORAGE+lang+"_combined_results.csv", mode='r', newline='') as file:
-        for x in csv.DictReader(file):
-            textseg_data.append(int(x[" text_segment_size"]))
+def pandas_df_with_outlier_scores(lang: str, storage: str, file_name_suffix: str = '_combined.csv', write_to_csv: bool = False):
+    import pandas as pd
 
-            inst_data.append(int(x[" instructions"]))
-    return textseg_data, inst_data
+    df = pd.read_csv(storage+lang+file_name_suffix, skipinitialspace=True)
+    data = df["instruction"]
+    min_value = data.min()
+    max_value = data.max()
+    df['normalized_instruction'] = (
+        data - min_value) / (max_value - min_value) * 100
+    df['outlier_scores'] = df["percentage"] + df['normalized_instruction']
+    if (write_to_csv):
+        df.to_csv('normalized_file.csv', index=False)
+    return df
