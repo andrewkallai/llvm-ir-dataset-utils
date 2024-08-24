@@ -21,5 +21,4 @@ def csv_to_pandas_df(lang: str, storage: str, file_name_suffix: str = 'combined.
 def outlier_rows(lang: str, storage: str) -> None:
     df = csv_to_pandas_df(lang, storage)
     outl = df.nlargest(df.shape[0]//2, "percentage")
-    #  print(outl[outl.instruction > outl["instruction"].quantile(q=.75, interpolation='lower')])
     return outl.nlargest(10, "instruction")
