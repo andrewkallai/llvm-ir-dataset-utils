@@ -1,5 +1,4 @@
-"""
-Utilies for plotting instruction counts & text segment size scatter plots, as well as instruction counts histograms.
+"""Utilies for plotting instruction counts & text segment size scatter plots, as well as instruction counts histograms.
 
 plot_instruction_counts_v_textseg
   Returns: None
@@ -10,11 +9,12 @@ plot_instruction_counts_v_textseg
   Example Usage: plot_instruction_counts_histograms("c", "/tmp", show=True)
 """
 import matplotlib.pyplot as plt
-from read_column import pandas_df_with_outlier_scores
+from read_column import csv_to_pandas_df
+
 
 def plot_instruction_counts_v_textseg(lang: str, storage: str, show: bool = False) -> None:
     import numpy as np
-    df = pandas_df_with_outlier_scores(lang, storage)
+    df = csv_to_pandas_df(lang, storage)
     textseg_data = df["text_segment"]
     inst_data = df["instruction"]
     c, b, a = np.polyfit(textseg_data, inst_data, 2)
@@ -45,7 +45,7 @@ def plot_instruction_counts_v_textseg(lang: str, storage: str, show: bool = Fals
 
 
 def plot_instruction_counts_histograms(lang: str, storage: str, show: bool = False) -> None:
-    df = pandas_df_with_outlier_scores(lang, storage)
+    df = csv_to_pandas_df(lang, storage)
     inst_data = df["instruction"]
     plt.hist(inst_data, bins='auto', alpha=1, color='b')
     plt.title("Histogram of Compiler Instructions ("+lang+")")
@@ -64,20 +64,3 @@ def plot_instruction_counts_histograms(lang: str, storage: str, show: bool = Fal
     else:
         plt.savefig(fname=lang+"_hist.pdf", format="pdf")
     plt.close()
-
-def print_outlier_rows(lang: str, storage: str, show) -> None:
-  df = pandas_df_with_outlier_scores(lang, storage)
-  outl = df.nlargest(10, "outlier_scores")
-#  print(outl.to_string(index=False))
-  outl.style.hide_index()
-  print(outl)
-#  cols = outl.loc[:, "BasicBlockCount":"CallWithPointerArgumentCount"]
-
-#  for col in cols:
-#        non_zero_values = outl[col][outl[col] != 0]
-#        if not non_zero_values.empty:
-#          print(f"Non-zero values in column {col}:")
-#          print(non_zero_values)
-
-
-
