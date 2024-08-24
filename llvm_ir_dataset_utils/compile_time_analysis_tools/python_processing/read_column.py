@@ -18,7 +18,7 @@ def csv_to_pandas_df(lang: str, storage: str, file_name_suffix: str = 'combined.
     return df
 
 
-def outlier_rows(lang: str, storage: str) -> None:
+def outlier_rows(lang: str, storage: str):
     df = csv_to_pandas_df(lang, storage)
     outl = df.nlargest(df.shape[0]//2, "percentage")
     return outl.nlargest(10, "instruction")
