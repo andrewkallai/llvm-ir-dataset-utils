@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 #Usage:
-#./create_tar.sh <language> [storage]
+#./create_tar.sh <language> <storage>
 
 if [ -z "$1" ]; then
   echo "Missing language argument."
@@ -11,7 +11,8 @@ else
 fi
 
 if [ -z "$2" ]; then
-  STORAGE="/tmp"
+  echo "Missing storage argument."
+  exit 1
 else
   STORAGE="$2"
 fi
