@@ -232,6 +232,18 @@ def get_instruction_counts(bitcode_module, additional_passes=''):
     ]
 
 
+def get_fields_total_counts(bitcode_module, additional_passes='', names=False):
+  properties_or_error = get_function_properties_module(bitcode_module,
+                                                       additional_passes)
+  if properties_or_error[0]:
+    return None
+  else:
+    if (names):
+      return [key[0] for key in properties_or_error[1].items()]
+    else:
+      return [str(sum([int(i) for i in key[1]])) for key in properties_or_error[1].items()]
+
+
 def get_instruction_histogram(bitcode_module, additional_passes=''):
   if additional_passes != '':
     additional_passes += ','
