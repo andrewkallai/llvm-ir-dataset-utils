@@ -25,7 +25,7 @@ $(WILD):
 	@ir_features=$$(python3 -m llvm_ir_dataset_utils.compile_time_analysis_tools.write_ir_counts \
 		$(lang)/bc_files/file$@.bc); \
 		echo "file$@, $$ir_features" >> $(lang)/ir_features_counts/ir_features$@.csv
-	@max_pass=$$(clang -w -c -ftime-report $(lang)/bc_files/file$@.bc -o /dev/null 2>&1 | \
+	@max_pass=$$($(CC) -w -c -ftime-report $(lang)/bc_files/file$@.bc -o /dev/null 2>&1 | \
 		awk '!/ignoring feature/' | awk 'NR==7 {print $$(NF-1) ", " $$NF}' | sed 's/%)//'); \
 		echo "file$@, $$max_pass" >> $(lang)/max_pass_counts/max_pass$@.csv 
 
