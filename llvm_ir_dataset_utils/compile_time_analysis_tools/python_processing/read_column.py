@@ -2,10 +2,10 @@
 
 csv_to_pandas_df
   Returns: pandas.core.frame.DataFrame
-  Example usage: csv_to_pandas('c', '/tmp', file_name='_other_suffix.csv', write_to_csv=True)
+  Example usage: csv_to_pandas('c', '/tmp', file_name_suffix='_other_suffix.csv')
 outlier_rows
   Returns: pandas.core.frame.DataFrame
-  Example usage: outlier_rows('c', '/tmp')
+  Example usage: outlier_rows('c', '/tmp', outlier_num=20, write_to_csv=True)
 """
 
 
