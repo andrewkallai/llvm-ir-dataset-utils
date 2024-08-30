@@ -29,7 +29,8 @@ DATA_NAMES=("text_segment" "instruction" "ir_features" "max_pass")
 
 for element in "${DATA_NAMES[@]}"; do
   if [[ ${element} == ${DATA_NAMES[2]} ]]; then
-    echo "file, BasicBlockCount, BlocksReachedFromConditionalInstruction, Uses, DirectCallsToDefinedFunctions, LoadInstCount, StoreInstCount, MaxLoopDepth, TopLevelLoopCount, TotalInstructionCount, BasicBlocksWithSingleSuccessor, BasicBlocksWithTwoSuccessors, BasicBlocksWithMoreThanTwoSuccessors, BasicBlocksWithSinglePredecessor, BasicBlocksWithTwoPredecessors, BasicBlocksWithMoreThanTwoPredecessors, BigBasicBlocks, MediumBasicBlocks, SmallBasicBlocks, CastInstructionCount, FloatingPointInstructionCount, IntegerInstructionCount, ConstantIntOperandCount, ConstantFPOperandCount, ConstantOperandCount, InstructionOperandCount, BasicBlockOperandCount, GlobalValueOperandCount, InlineAsmOperandCount, ArgumentOperandCount, UnknownOperandCount, CriticalEdgeCount, ControlFlowEdgeCount, UnconditionalBranchCount, IntrinsicCount, DirectCallCount, IndirectCallCount, CallReturnsIntegerCount, CallReturnsFloatCount, CallReturnsPointerCount, CallReturnsVectorIntCount, CallReturnsVectorFloatCount, CallReturnsVectorPointerCount, CallWithManyArgumentsCount, CallWithPointerArgumentCount" \
+    OUTPUT=$(python3 -m llvm_ir_dataset_utils.compile_time_analysis_tools.write_ir_counts "/dev/null")
+    echo "file, $OUTPUT" \
     > ${TARGET_PREFIX}_${element}.csv
   elif [[ ${element} == ${DATA_NAMES[3]} ]]; then
     echo "file, percentage, pass_name" \
