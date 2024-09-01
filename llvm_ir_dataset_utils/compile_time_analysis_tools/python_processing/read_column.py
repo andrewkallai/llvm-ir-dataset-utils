@@ -15,7 +15,7 @@ def csv_to_pandas_df(lang: str,
   import pandas as pd
 
   df = pd.read_csv(
-      storage + lang + '_' + file_name_suffix, skipinitialspace=True)
+      storage + '/' + lang + '_' + file_name_suffix, skipinitialspace=True)
   return df
 
 
