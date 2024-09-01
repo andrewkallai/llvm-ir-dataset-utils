@@ -1,7 +1,7 @@
 """Script to write ir dataset files to a specified storage location.
 
 In write_dataset_files_and_index_info, the index counts for each language are written to a file "indices.csv".
-Then each bitcode file is written using available threads into a tar file corresponding to the IR language.
+Then, each bitcode file is written using available threads into respective tar files named [lang]_bc_files.tar. Each file added to a tar file is named bc_files/file[index].bc, where index is a number that is between the range of start_index and end_index (not including end) in "indices.csv" and is incremented by one (smallest index is 1).
 
 
 get_args
@@ -21,14 +21,6 @@ def get_args():
       description="Configure path to store bitcode files, and configure batch size."
   )
   parser.add_argument('storage', type=str, help='Path to the storage location.')
-  parser.add_argument(
-      '-b',
-      '--batchsize',
-      nargs='?',
-      type=int,
-      default=15000,
-      help='Number of files to be written per pool of threads. Default value is 15000.'
-  )
   return parser.parse_args()
 
 
