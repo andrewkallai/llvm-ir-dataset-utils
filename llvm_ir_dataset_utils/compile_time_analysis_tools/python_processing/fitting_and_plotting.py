@@ -1,21 +1,35 @@
-"""plot_instruction_counts_v_textseg is used to make compiler instruction counts & text segment size scatter plots, and plot_instruction_counts_histograms is used to make compiler instruction counts histograms.
+"""Functions for plotting instruction counts and text segment size data.
 
-plot_instruction_counts_v_textseg
-  Returns: None
-  Example Usage: plot_instruction_counts_v_textseg("c", "/tmp", show=True)
+This script contains two functions. One function makes a scatter plot of
+compiler instruction counts and text segment size data. The other makes
+a histogram of the compiler instruction counts.
 
- plot_instruction_counts_histograms
-  Returns: None
-  Example Usage: plot_instruction_counts_histograms("c", "/tmp", show=True)
+Example Usage: from fitting_and_plotting import *
 """
 import matplotlib.pyplot as plt
 from read_column import csv_to_pandas_df
+import numpy as np
 
 
 def plot_instruction_counts_v_textseg(lang: str,
                                       storage: str,
                                       show: bool = False) -> None:
-  import numpy as np
+  """Display a scatter plot of the data using matplotlib pyplot.
+
+  The function internally creates a pandas dataframe from the provided
+  CSV file location. The columns pertaining to text segment size and
+  compiler CPU instruction counts are plotted in a scatter plot with
+  logarithmic axis. The x and y bounds of the plot are limited to
+  provide a standard range of values for all plots.
+
+  Args:
+    lang: A string which represents the type of IR file data being
+      accessed
+    storage: A string which is the path to the IR CSV data
+    show: A boolean which if set to True will print the number of data
+      points and show the scatter plot using pyplot.show(), otherwise
+      the plot is saved to a .pdf file
+  """
   df = csv_to_pandas_df(lang, storage)
   textseg_data = df["text_segment"]
   inst_data = df["instruction"]
@@ -51,6 +65,22 @@ def plot_instruction_counts_v_textseg(lang: str,
 def plot_instruction_counts_histograms(lang: str,
                                        storage: str,
                                        show: bool = False) -> None:
+  """Display a histogram of the compile time data using matplotlib pyplot.
+
+  The function internally creates a pandas dataframe from the provided
+  CSV file location. The columns pertaining to compiler CPU instruction
+  counts are plotted in a histogram with logarithmic axis. The x and y
+  bounds of the plot are limited to provide a standard range of values
+  for all plots.
+
+  Args:
+    lang: A string which represents the type of IR file data being
+      accessed
+    storage: A string which is the path to the IR CSV data
+    show: A boolean which if set to True will print the number of data
+      points and display the histogram using pyplot.show(), otherwise
+      the plot is saved to a .pdf file
+  """
   df = csv_to_pandas_df(lang, storage)
   inst_data = df["instruction"]
   plt.hist(inst_data, bins='auto', alpha=1, color='b')
