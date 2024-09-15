@@ -232,7 +232,9 @@ def get_instruction_counts(bitcode_module, additional_passes=''):
     ]
 
 
-def get_fields_total_counts(bitcode_module, additional_passes='', names=False):
+def get_function_properties_total(bitcode_module,
+                                  additional_passes='',
+                                  names=False):
   properties_or_error = get_function_properties_module(bitcode_module,
                                                        additional_passes)
   if properties_or_error[0]:
@@ -242,8 +244,8 @@ def get_fields_total_counts(bitcode_module, additional_passes='', names=False):
       return [key[0] for key in properties_or_error[1].items()]
     else:
       return [
-          str(sum([int(i)
-                   for i in key[1]]))
+          sum([int(i)
+               for i in key[1]])
           for key in properties_or_error[1].items()
       ]
 
