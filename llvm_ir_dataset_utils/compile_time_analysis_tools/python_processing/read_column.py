@@ -54,10 +54,10 @@ def outlier_rows(lang: str,
   Returns: pandas.core.frame.DataFrame
   """
   df = csv_to_pandas_df(lang, storage)
-  outl = df.nlargest(df.shape[0] // 2, "percentage")
-  outl = outl[outl.instruction > outl["instruction"].quantile(
-      q=.75, interpolation='lower')]
-  outl = outl.nlargest(outlier_num, "percentage")
+  outlier_df = df.nlargest(df.shape[0] // 2, "percentage")
+  outlier_df = outlier_df[outlier_df.instruction > outlier_df["instruction"]
+                          .quantile(q=.75, interpolation='lower')]
+  outlier_df = outlier_df.nlargest(outlier_num, "percentage")
   if (write_to_csv):
-    df.to_csv(lang + '_outliers.csv', index=False)
-  return outl
+    outlier_df.to_csv(lang + '_outliers.csv', index=False)
+  return outlier_df
